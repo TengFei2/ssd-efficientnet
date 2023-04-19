@@ -62,8 +62,8 @@ def main(parser_data):
     assert batch_size > 1, "batch size must be greater than 1"
     # 防止最后一个batch_size=1，如果最后一个batch_size=1就舍去
     drop_last = True if len(train_dataset) % batch_size == 1 else False
-    # nw = min([os.cpu_count(), batch_size if batch_size > 1 else 0, 8])  # number of workers
-    nw = 4
+    nw = min([os.cpu_count(), batch_size if batch_size > 1 else 0, 8])  # number of workers
+    # nw = 4
     print('Using %g dataloader workers' % nw)
     train_data_loader = torch.utils.data.DataLoader(train_dataset,
                                                     batch_size=batch_size,
@@ -167,11 +167,11 @@ if __name__ == '__main__':
     # 训练设备类型
     parser.add_argument('--device', default='cuda:0', help='device')
     # 检测的目标类别个数，不包括背景
-    parser.add_argument('--num_classes', default=3, type=int, help='num_classes')
+    parser.add_argument('--num_classes', default=20, type=int, help='num_classes')
     # 训练数据集的根目录(VOCdevkit)
-    parser.add_argument('--data-path', default='C:/Users/51932/Desktop/SSD/camera', help='dataset')
+    parser.add_argument('--data-path', default='/kaggle/input/diordata', help='dataset')
     # 文件保存地址
-    parser.add_argument('--output-dir', default='runs/train', help='path where to save')
+    parser.add_argument('--output-dir', default='/kaggle/working/', help='path where to save')
     # 若需要接着上次训练，则指定上次训练保存权重文件地址
     parser.add_argument('--resume', default='', type=str, help='resume from checkpoint')
     # 指定接着从哪个epoch数开始训练
