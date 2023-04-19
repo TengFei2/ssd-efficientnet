@@ -35,7 +35,7 @@ def create_model(num_classes=4, pre_ssd_path=None):
         for k, v in pre_weights_dict.items():
             # print(k)
             split_key = k.split(".")
-            if "conf" in split_key:
+            if ("conf" in split_key) or ("loc" in split_key):
                 continue
             del_conf_loc_dict.update({k: v})
 
