@@ -92,9 +92,9 @@ class SSD300(nn.Module):
         confs = []
         for f, l, c in zip(features, loc_extractor, conf_extractor):
             # [batch, n*4, feat_size, feat_size] -> [batch, 4, -1]
-            locs.append(l(f).reshape(f.shape[0], self.num_classes, -1))
+            confs.append(l(f).reshape(f.shape[0], self.num_classes, -1))
             # [batch, n*classes, feat_size, feat_size] -> [batch, classes, -1]
-            confs.append(c(f).reshape(f.shape[0], 4, -1))
+            locs.append(c(f).reshape(f.shape[0], 4, -1))
 
         locs, confs = torch.cat(locs, 2).contiguous(), torch.cat(confs, 2).contiguous()
         return locs, confs
