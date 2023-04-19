@@ -25,8 +25,21 @@ def create_model(num_classes=4, pre_ssd_path=None):
     if pre_ssd_path:
         pre_model_dict = torch.load(pre_ssd_path, map_location='cpu')
         pre_weights_dict = pre_model_dict["model"]
+        
+#         missing_keys, unexpected_keys = model.load_state_dict(pre_weights_dict, strict=False)
+#         if len(missing_keys) != 0 or len(unexpected_keys) != 0:
+#             print("missing_keys: ", missing_keys)
+#             print("unexpected_keys: ", unexpected_keys)
+        
+        del_conf_loc_dict = {}
+        for k, v in pre_weights_dict.items():
+            # print(k)
+            split_key = k.split(".")
+            if "conf" in split_key:
+                continue
+            del_conf_loc_dict.update({k: v})
 
-        missing_keys, unexpected_keys = model.load_state_dict(pre_weights_dict, strict=False)
+        missing_keys, unexpected_keys = model.load_state_dict(del_conf_loc_dict, strict=False)
         if len(missing_keys) != 0 or len(unexpected_keys) != 0:
             print("missing_keys: ", missing_keys)
             print("unexpected_keys: ", unexpected_keys)
