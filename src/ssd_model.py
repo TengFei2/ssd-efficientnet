@@ -12,7 +12,7 @@ class Backbone(nn.Module):
     def __init__(self, pretrain_path=None) -> None:
         super().__init__()
         net = efficientnet_b0()
-        self.out_channels = [40, 512, 512, 256, 256, 256] # 六个feature map的通道
+        self.out_channels = [40, 128, 128, 128, 128, 128] # 六个feature map的通道
         # self.out_channels = [40, 512]
 
         if pretrain_path:
