@@ -21,15 +21,15 @@ def create_model(num_classes=4, pre_ssd_path=None):
     backbone = Backbone()
     model = SSD300(backbone=backbone, num_classes=num_classes)
 
-    # https://ngc.nvidia.com/catalog/models -> search ssd -> download FP32
-    if pre_ssd_path:
-        pre_model_dict = torch.load(pre_ssd_path, map_location='cpu')
-        pre_weights_dict = pre_model_dict["model"]
+#     # https://ngc.nvidia.com/catalog/models -> search ssd -> download FP32
+#     if pre_ssd_path:
+#         pre_model_dict = torch.load(pre_ssd_path, map_location='cpu')
+#         pre_weights_dict = pre_model_dict["model"]
         
-        missing_keys, unexpected_keys = model.load_state_dict(pre_weights_dict, strict=False)
-        if len(missing_keys) != 0 or len(unexpected_keys) != 0:
-            print("missing_keys: ", missing_keys)
-            print("unexpected_keys: ", unexpected_keys)
+#         missing_keys, unexpected_keys = model.load_state_dict(pre_weights_dict, strict=False)
+#         if len(missing_keys) != 0 or len(unexpected_keys) != 0:
+#             print("missing_keys: ", missing_keys)
+#             print("unexpected_keys: ", unexpected_keys)
         
 #         del_conf_loc_dict = {}
 #         for k, v in pre_weights_dict.items():
@@ -98,7 +98,7 @@ def main(parser_data):
 
     # define optimizer
     params = [p for p in model.parameters() if p.requires_grad]
-    optimizer = torch.optim.SGD(params, lr=0.001,
+    optimizer = torch.optim.RMSprop(params, lr=0.001,
                                 momentum=0.9, weight_decay=0.0005
                                 )
     # learning rate scheduler
